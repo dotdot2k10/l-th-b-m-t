@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!-- Đây là khai báo loại tài liệu HTML5 -->
+<html lang="vi">
+<head>
+    <!-- Thiết lập bộ mã ký tự cho trang web, hỗ trợ tiếng Việt -->
+    <meta charset="UTF-8">
+    <!-- Cài đặt viewport để trang web hiển thị tốt trên mọi thiết bị (điện thoại, máy tính bảng) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Tiêu đề của trang web, hiển thị trên tab trình duyệt -->
+    <title>Lá Thư Từ Tôi</title>
+
+    <!-- Đoạn mã CSS này dùng để trang trí cho trang web -->
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            background-color: #f0f0e0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+            position: relative;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff8e1;
+            padding: 50px;
+            border-radius: 5px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            max-width: 90%;
+            width: 600px;
+        }
+        #greetingText {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: left;
+            border-top: 1px solid #d7ccc8;
+            border-bottom: 1px solid #d7ccc8;
+            margin: 20px 0;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        button {
+            background-color: #8d6e63;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 2px 5px rgba(0,0,0,0.2);
+            text-transform: uppercase;
+        }
+        button:hover {
+            background-color: #795548;
+        }
+        .hidden {
+            display: none;
+        }
+        #thankYouScreen {
+            display: none;
+            text-align: center;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        #thankYouText {
+            font-size: 3rem;
+            line-height: 1.8;
+            text-align: center;
+        }
+        #thankYouText span {
+            font-size: 0.8em;
+        }
+        #creatorText {
+            font-size: 10px;
+            font-weight: bold;
+            color: #8d6e63;
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            margin: 0;
+            text-align: left;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="mainScreen" class="container">
+        <p id="greetingText">Hãy nhấn nút "Mở Thư" để đọc nội dung bạn nhé!</p>
+        <div class="button-group">
+            <button id="geminiButton">
+                <span>Mở Thư</span>
+            </button>
+            <button id="deleteButton" class="hidden">
+                <span>dell</span>
+            </button>
+        </div>
+    </div>
+    
+    <div id="thankYouScreen">
+        <p id="thankYouText">Cảm ơn bạn nhiều!<br><span>stk:</span></p>
+        <p id="creatorText">create by:dat</p>
+    </div>
+
+    <script>
+        const mainScreen = document.getElementById('mainScreen');
+        const thankYouScreen = document.getElementById('thankYouScreen');
+        const geminiButton = document.getElementById('geminiButton');
+        const deleteButton = document.getElementById('deleteButton');
+        const greetingText = document.getElementById('greetingText');
+        const originalButtonText = "Mở Thư";
+        const originalGreetingText = "Hãy nhấn nút \"Mở Thư\" để đọc nội dung bạn nhé!";
+        let isLetterOpen = false;
+        let okButtonClickCount = 0;
+
+        const prewrittenLetters = [
+            "bạn thân oiiiiiiii! mình quý bạn lắm đó bạn cho mình tiền nạp fifai đi"
+        ];
+
+        function handleGeminiButtonClick() {
+            if (isLetterOpen) {
+                showThankYouScreen();
+            } else {
+                generateGreeting();
+            }
+        }
+        function handleDeleteButtonClick() {
+            if (isLetterOpen) {
+                okButtonClickCount++;
+                if (okButtonClickCount < 6) {
+                    const scaleFactor = 1 + okButtonClickCount * 0.5;
+                    geminiButton.style.transform = `scale(${scaleFactor})`;
+                } else {
+                    geminiButton.style.transform = 'scale(1)';
+                    showThankYouScreen();
+                }
+            }
+        }
+        function generateGreeting() {
+            const randomLetter = prewrittenLetters[0];
+            greetingText.textContent = randomLetter;
+            geminiButton.querySelector('span').textContent = "Ok";
+            deleteButton.classList.remove('hidden');
+            isLetterOpen = true;
+            okButtonClickCount = 0;
+            geminiButton.style.transform = 'scale(1)';
+        }
+        function showThankYouScreen() {
+            mainScreen.style.display = 'none';
+            thankYouScreen.style.display = 'flex';
+        }
+        geminiButton.addEventListener('click', handleGeminiButtonClick);
+        deleteButton.addEventListener('click', handleDeleteButtonClick);
+    </script>
+
+</body>
+</html>

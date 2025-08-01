@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<!-- Đây là khai báo loại tài liệu HTML5 -->
+<html lang="vi">
+<head>
+    <!-- Thiết lập bộ mã ký tự cho trang web, hỗ trợ tiếng Việt -->
+    <meta charset="UTF-8">
+    <!-- Cài đặt viewport để trang web hiển thị tốt trên mọi thiết bị (điện thoại, máy tính bảng) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Tiêu đề của trang web, hiển thị trên tab trình duyệt -->
+    <title>Lá Thư Từ Gemini</title>
+
+    <!-- Đoạn mã CSS này dùng để trang trí cho trang web -->
+    <style>
+        /* CSS cho toàn bộ body của trang */
+        body {
+            font-family: 'Times New Roman', serif; /* Font chữ cổ điển hơn cho lá thư */
+            background-color: #f0f0e0; /* Màu nền giống giấy da */
+            color: #333; /* Màu chữ chính */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center; /* Căn giữa nội dung theo chiều ngang */
+            align-items: center; /* Căn giữa nội dung theo chiều dọc */
+            min-height: 100vh; /* Chiều cao tối thiểu bằng chiều cao viewport */
+            flex-direction: column;
+            position: relative; /* Thêm position relative để căn chỉnh creatorText */
+        }
+        
+        /* CSS cho phần nội dung chính */
+        .container {
+            text-align: center; /* Căn giữa các thành phần bên trong */
+            background-color: #fff8e1; /* Màu nền trắng ngà cho khối nội dung */
+            padding: 50px; /* Tăng khoảng trống bên trong */
+            border-radius: 5px; /* Bo tròn các góc ít hơn để giống lá thư */
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15); /* Hiệu ứng đổ bóng mạnh hơn */
+            max-width: 90%; /* Giới hạn chiều rộng trên màn hình nhỏ */
+            width: 600px;
+        }
+
+        /* CSS cho đoạn văn bản lá thư */
+        #greetingText {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            min-height: 150px; /* Thêm chiều cao tối thiểu để tránh layout bị thay đổi */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: left; /* Căn lề trái để giống một lá thư */
+            border-top: 1px solid #d7ccc8;
+            border-bottom: 1px solid #d7ccc8;
+            margin: 20px 0;
+        }
+
+        /* CSS cho nhóm nút */
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px; /* Khoảng cách giữa các nút */
+            margin-top: 20px;
+        }
+
+        /* CSS cho nút bấm */
+        button {
+            background-color: #8d6e63; /* Màu nâu nhạt */
+            color: white; /* Chữ màu trắng */
+            border: none;
+            padding: 15px 40px; /* Kích thước nút */
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 5px; /* Bo tròn các góc */
+            cursor: pointer; /* Hiển thị biểu tượng con trỏ khi di chuột */
+            transition: all 0.3s ease; /* Thêm hiệu ứng chuyển màu và kích thước mượt mà */
+            box-shadow: 2px 5px rgba(0,0,0,0.2);
+            text-transform: uppercase; /* Chữ in hoa */
+        }
+
+        /* Thay đổi màu nền nút khi di chuột vào */
+        button:hover {
+            background-color: #795548;
+        }
+
+        /* CSS để ẩn phần tử */
+        .hidden {
+            display: none;
+        }
+
+        /* CSS cho màn hình cảm ơn */
+        #thankYouScreen {
+            display: none;
+            text-align: center;
+            flex-direction: column; /* Sắp xếp các phần tử con theo chiều dọc */
+            justify-content: center; /* Căn giữa nội dung theo chiều dọc */
+            align-items: center; /* Căn giữa nội dung theo chiều ngang */
+            height: 100vh; /* Chiều cao đầy đủ để căn chỉnh nội dung */
+            padding: 20px;
+            box-sizing: border-box; /* Tính cả padding vào kích thước */
+        }
+        #thankYouText {
+            font-size: 3rem; /* Kích thước chữ */
+            line-height: 1.8;
+            text-align: center;
+        }
+        
+        /* CSS cho chữ stk */
+        #thankYouText span {
+            font-size: 0.8em; /* Giảm kích thước chữ stk nhỏ hơn */
+        }
+        
+        #creatorText {
+            font-size: 10px; /* Giảm kích thước chữ */
+            font-weight: bold;
+            color: #8d6e63;
+            position: absolute; /* Đặt vị trí tuyệt đối */
+            bottom: 20px; /* Cách đáy 20px */
+            left: 20px; /* Cách lề trái 20px */
+            margin: 0;
+            text-align: left;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Đây là phần nội dung chính của trang web -->
+    <div id="mainScreen" class="container">
+        <!-- Đoạn văn bản mô tả -->
+        <p id="greetingText">Hãy nhấn nút "Mở Thư" để đọc nội dung bạn nhé!</p>
+
+        <!-- Nhóm nút bấm -->
+        <div class="button-group">
+            <button id="geminiButton">
+                <span>Mở Thư</span>
+            </button>
+            <button id="deleteButton" class="hidden">
+                <span>dell</span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Màn hình cảm ơn mới -->
+    <div id="thankYouScreen">
+        <p id="thankYouText">Cảm ơn bạn nhiều!<br><span>stk:</span></p>
+        <p id="creatorText">create by:dat</p>
+    </div>
+
+    <!-- Đoạn mã JavaScript này dùng để thêm tương tác cho trang web -->
+    <script>
+        // Lấy các đối tượng từ HTML
+        const mainScreen = document.getElementById('mainScreen');
+        const thankYouScreen = document.getElementById('thankYouScreen');
+        const geminiButton = document.getElementById('geminiButton');
+        const deleteButton = document.getElementById('deleteButton');
+        const greetingText = document.getElementById('greetingText');
+        
+        // Thêm một biến để lưu trạng thái ban đầu của nút và văn bản
+        const originalButtonText = "Mở Thư";
+        const originalGreetingText = "Hãy nhấn nút \"Mở Thư\" để đọc nội dung bạn nhé!";
+        let isLetterOpen = false; // Biến trạng thái để kiểm tra xem đã mở thư hay chưa
+        let okButtonClickCount = 0; // Biến đếm số lần nhấn nút "dell"
+
+        // Mảng chứa các nội dung thư đã được viết sẵn
+        const prewrittenLetters = [
+            "bạn thân oiiiiiiii! mình quý bạn lắm đó bạn cho mình tiền nạp fifai đi"
+        ];
+
+        // Hàm xử lý sự kiện khi nhấn nút Gemini
+        function handleGeminiButtonClick() {
+            if (isLetterOpen) {
+                // Nếu thư đã mở và nút là "Ok", chuyển sang màn hình cảm ơn ngay lập tức
+                showThankYouScreen();
+            } else {
+                // Nếu thư chưa mở, tạo và hiển thị thư
+                generateGreeting();
+            }
+        }
+
+        // Hàm để xử lý sự kiện khi nhấn nút "dell"
+        function handleDeleteButtonClick() {
+            if (isLetterOpen) {
+                // Nếu thư đã mở, tăng biến đếm
+                okButtonClickCount++;
+                
+                // Nếu chưa đủ 6 lần, tăng kích thước nút "Ok"
+                if (okButtonClickCount < 6) {
+                    const scaleFactor = 1 + okButtonClickCount * 0.5; // Tăng scale factor
+                    geminiButton.style.transform = `scale(${scaleFactor})`;
+                } else {
+                    // Nếu đã nhấn đủ 6 lần, chuyển sang màn hình cảm ơn
+                    geminiButton.style.transform = 'scale(1)'; // Reset kích thước nút
+                    showThankYouScreen();
+                }
+            }
+        }
+
+        // Hàm để hiển thị lá thư và thay đổi trạng thái
+        function generateGreeting() {
+            // Lấy nội dung thư
+            const randomLetter = prewrittenLetters[0]; // Chỉ có một thư duy nhất
+            // Hiển thị nội dung thư lên trang
+            greetingText.textContent = randomLetter;
+            
+            // Đổi văn bản nút sau khi thư đã được mở
+            geminiButton.querySelector('span').textContent = "Ok";
+            // Hiển thị nút "dell"
+            deleteButton.classList.remove('hidden');
+            // Cập nhật trạng thái
+            isLetterOpen = true;
+            okButtonClickCount = 0; // Reset biến đếm khi mở thư mới
+            geminiButton.style.transform = 'scale(1)'; // Đảm bảo nút "Ok" có kích thước ban đầu
+        }
+
+        // Hàm để hiển thị màn hình cảm ơn
+        function showThankYouScreen() {
+            mainScreen.style.display = 'none';
+            thankYouScreen.style.display = 'flex';
+        }
+
+        // Gắn hàm xử lý sự kiện vào các nút
+        geminiButton.addEventListener('click', handleGeminiButtonClick);
+        deleteButton.addEventListener('click', handleDeleteButtonClick);
+    </script>
+
+</body>
+</html>
